@@ -1,3 +1,9 @@
+# ASX Radar V3.5 — 我的追蹤
+
+保留 V3.4 新聞分析及股票掃描，新增收藏、持續追蹤和績效比較。收藏使用最新可取得的日線價格，不會事後更改起點。10、20 交易日使用對應收盤價，一個月使用滿一個曆月之後的第一筆交易日收盤價。需手動按更新或開啟時操作，PWA 關閉不會後台運作。資料儲存在本機 localStorage，請使用 App 的「匯出追蹤備份 JSON」定期備份。
+
+部署：GitHub 專案根目錄替換 index.html、sw.js、CHANGELOG.md、README.md。保留 netlify/functions/research.mjs、manifest.webmanifest、圖示等原檔。Netlify 連動 main 分支時會自動部署。
+
 # ASX Radar V3.0
 
 免電腦的 iPhone PWA，採用 GitHub + Netlify 靜態部署。

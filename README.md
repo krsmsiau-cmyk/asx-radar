@@ -1,25 +1,30 @@
-# ASX Radar iPhone PWA (免費原型)
+# ASX Radar V3.0
 
-此為繁體中文手機優先 PWA：查詢 ASX 股票代碼、Yahoo Finance 最新可取得的日線、MA20/50/200、RSI14、MACD、相對成交量、ATR14、規則式觀察訊號，以及 +10% 目標價情境。
+免電腦的 iPhone PWA，採用 GitHub + Netlify 靜態部署。
 
-## 只用 iPhone 部署（GitHub Pages）
+## 更新到既有 GitHub Repo
+將 `index.html`、`sw.js`、`manifest.webmanifest` 三個檔案上傳到現有專案的**根目錄**並覆蓋同名檔案，另外新增 `CHANGELOG.md`。若 Netlify 已連接 GitHub main，部署會自動啟動。檢查 App 標頭顯示 `V3.0 · 基本面研究版`。不要上傳整個 ZIP 當作網站。
 
-1. 在 iPhone「檔案」App 中點開下載的 `asx-pwa.zip`，會解壓出 `asx-pwa` 資料夾。
-2. 用 iPhone Safari 登入 https://github.com 並新建一個 **Public** repository，例：`asx-radar`。
-3. 在 repo 點 `Add file` → `Upload files`，從「檔案」App 選取資料夾內 **index.html、manifest.webmanifest、sw.js、icon-192.png、icon-512.png** 五個檔案，上傳到 repo 根目錄。若手機版看不到操作，Safari 選「要求桌面網站」。請不要只上傳 zip。
-4. `Settings` → `Pages` → `Build and deployment` → `Deploy from a branch`，選 `main` + `/(root)`，儲存。等 GitHub 完成部署，再開啟 `https://你的帳號.github.io/asx-radar/`。
-5. Safari 開啟該網址 → 分享 → 加入主畫面 → 啟用「作為網頁 App 開啟」→ 加入。全程不需要電腦，也不需 App Store。
+## 基本面功能的資料來源
+Yahoo Finance 非官方 chart endpoint 只提供價格與交易資料；完整 ASX 財報無法在不具授權及穩定 API 的情況下保證自動抓取。V3 提供 ASX 公告、Yahoo 財務報表與統計資料的查找入口，使用者自行核對財報後填入數字。所有填入內容僅保存在 iPhone 本地瀏覽器，不會傳到伺服器。
 
-若 repository 名稱不同，網址最後一段請改成真實名稱。GitHub 免費 Pages 公開存放庫通常可用；依其現行政策為準。首次建立 repo 可能需要驗證帳號。
+## 已知限制
+- 精選前三名僅從預設 16 檔觀察名單使用技術指標排名，不包含基本面。
+- 基本面不會自動填入，未取得的欄位顯示缺值，沒有虛構獲利機率。
+- 公開網頁免費 Yahoo 行情代理可能中斷、限流、延遲。
+- 不能保證獲利或達成 +10%。
 
-## 重要限制
 
-- **不能承諾此免費資料鏈路長期穩定。** Yahoo Finance 圖表 API 非官方；Safari 不允許直接跨來源讀取，原型預設經由免費第三方 `https://proxy.cors.dev/` 請求。若代理遭限流、服務故障或 Yahoo 限制查詢，App 會顯示錯誤，不會生成虛構行情。
-- 第三方代理會看到所查股票代碼，請勿透過此程式傳送私人資料或 API 金鑰。公開網站也要自行確認資料來源與代理的使用條款。
-- 非即時，最新日線與盤中報價可能不同，並非真正秒級訊號；資料若超過五日會禁止顯示新訊號。
-- 尚**未**整合最新財報、正式 ASX 公告、全市場掃描、交易策略回測、AI 預測或已校準的 10% 成功機率。不要把規則分數誤認為預測機率。
-- PWA 會緩存程式外殼以便離線開啟，但不儲存可離線使用的行情。安裝後仍需要連網查價。
+V3.1 精簡介面：預設保留三檔候選、個股價格與訊號、10%情境及停損參考。其他分析點按展開。更新時替換 index.html、sw.js，並新增 CHANGELOG.md。
 
-## 修改代理
 
-開啟 `index.html`，搜尋 `https://proxy.cors.dev/`。可改成你自己有授權、支援 CORS 的代理，並確認它允許向 Yahoo 圖表接口讀取資料。不要把第三方 API 金鑰寫進公開的 HTML。
+## V3.2
+- 開啟 App 自動播放短暫的 ASX Radar 啟動畫面，然後進入精簡首頁。
+- GitHub/Netlify 更新：覆蓋 index.html、sw.js、CHANGELOG.md；保留其餘檔案。
+
+
+## V3.3 新聞搜尋（需 Netlify）
+精選股會透過 netlify/functions/research.mjs 查詢 Google 新聞 RSS。必須部署整個資料夾（包含 netlify/functions/research.mjs），不能只更新 index.html。新聞摘要不代表事實已核對，財報仍以官方 ASX 文件為準。無法取得新聞時不提供買進結論。無法保證 Google 新聞 RSS 永遠可用或涵蓋所有 ASX 公告。
+
+
+V3.4: 掃描卡會自動呈現規則式結論和三項理由；新聞證據置於可展開區。此版本僅能比對新聞標題，尚未自動驗證財報或 ASX 公告全文，無法證明買進成功率。
